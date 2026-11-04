@@ -64,3 +64,23 @@ html[lang=en] .award-year{flex-basis:50px;white-space:nowrap}
 @media(max-width:1100px){.about-lower .about-actions{justify-content:center}}
 .page-layout :is(.about-copy p,.project-body>p,.entry-description,.skills-list dd){letter-spacing:-.02em}
 html[lang=en] .page-layout :is(.about-copy p,.project-body>p,.entry-description,.skills-list dd){letter-spacing:-.01em}
+
+/* Short, optional motion; all content remains visible without JavaScript. */
+@media(prefers-reduced-motion:no-preference){
+  body:not(.resume-editing){transition:background-color .2s ease,color .2s ease}
+  body:not(.resume-editing) .site-header{transition:background-color .2s ease,border-color .2s ease}
+  body:not(.resume-editing) :is(.intro-links a,.contact-link,.project-links a,.theme-toggle,.language-switch button){transition:color .16s ease,background-color .16s ease,border-color .16s ease,box-shadow .16s ease}
+  body:not(.resume-editing) .section-tabs a{transition:color .18s ease}
+  body:not(.resume-editing) .section-tabs a::after{transition:background-color .18s ease}
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  body:not(.resume-editing) .intro-links a{transition:transform .18s ease,color .18s ease,background-color .18s ease,box-shadow .18s ease}
+  body:not(.resume-editing) .intro-links a:hover{transform:translateY(-2px)}
+  body:not(.resume-editing) .cv-download:hover{box-shadow:0 4px 14px #0002}
+  body:not(.resume-editing) :is(.project-links,.intro-links) a .icon{transition:transform .18s ease}
+  body:not(.resume-editing) :is(.project-links,.intro-links) a:hover .icon{transform:translateX(2px)}
+  body:not(.resume-editing) .avatar-photo{transition:transform .3s ease}
+  body:not(.resume-editing) .avatar:hover .avatar-photo{transform:scale(1.24)}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.page-layout *,.site-header *{animation:none!important;transition:none!important}}
+@media print{.page-layout *,.site-header *{animation:none!important;transition:none!important}}

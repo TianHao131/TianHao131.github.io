@@ -4,6 +4,21 @@
   const t = value => window.ResumeI18n?.t(value) || value;
   let active = ids.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'projects';
   let scheduled = false;
+  const motionPreference=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motions=new Set();
+  function cancelMotion(){for(const motion of motions)motion.cancel();motions.clear()}
+  function reveal(elements,stagger=40){
+    if(motionPreference.matches||document.body.classList.contains('resume-editing')||!Element.prototype.animate)return;
+    [...elements].forEach((element,index)=>{
+      if(!element.getClientRects().length)return;
+      const motion=element.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:360,delay:Math.min(index*stagger,180),easing:'cubic-bezier(.2,.7,.3,1)',fill:'backwards'});
+      motions.add(motion);motion.finished.then(()=>motions.delete(motion),()=>motions.delete(motion));
+    });
+  }
+  function revealPanel(id){const panel=document.getElementById(id);if(panel&&!panel.hidden)reveal(panel.querySelectorAll('.section-heading,.project,.timeline-item,.teaching-entry,.awards-list>li'),35)}
+  motionPreference.addEventListener('change',()=>{if(motionPreference.matches)cancelMotion()});
+  new MutationObserver(()=>{if(document.body.classList.contains('resume-editing'))cancelMotion()}).observe(document.body,{attributes:true,attributeFilter:['class']});
+  window.addEventListener('beforeprint',cancelMotion);
   let cvLoading;
   async function loadCV(){if(window.ResumeCV)return;if(!cvLoading)cvLoading=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=window.ResumeCVURL||'cv-data.js';script.onload=()=>window.ResumeCV?resolve():reject(Error('CV unavailable'));script.onerror=()=>{cvLoading=null;script.remove();reject(Error('CV unavailable'))};document.head.append(script)});await cvLoading}
   function applyTheme(value, save = false) {
@@ -37,9 +52,11 @@
   }
   function selectPanel(id, options={}) {
     if(!ids.includes(id))return;
+    const changed=active!==id;if(changed)cancelMotion();
     active=id;refresh();
     if(options.url&&location.hash!=='#'+id)updateHash(id,options.replace);
     if(options.scroll)scrollTarget('#resume-content');
+    if(changed)requestAnimationFrame(()=>{if(active===id)revealPanel(id)});
   }
   function updateHash(id,replace=false){if(location.protocol==='about:')return;try{history[replace?'replaceState':'pushState'](null,'','#'+id)}catch{/* Sandboxed previews keep navigation inside the frame. */}}
   function scrollTarget(selector){requestAnimationFrame(()=>{document.querySelector(selector)?.scrollIntoView({block:'start',behavior:'instant'});updateNavigation()})}
@@ -92,4 +109,9 @@
   window.ResumeUI={selectPanel,refresh,applyTheme,loadCV,normalizeLayout};
   let theme=document.documentElement.dataset.theme||'dark';try{theme=localStorage.getItem(themeKey)||theme}catch{}
   applyTheme(theme);refresh();
+  requestAnimationFrame(()=>{
+    reveal(document.querySelectorAll('.profile-heading,.profile-affiliations,.profile-contacts'),55);
+    const about=document.getElementById('about');if(about)reveal(about.children,35);
+    if(ids.includes(location.hash.slice(1)))revealPanel(active);
+  });
 })();
