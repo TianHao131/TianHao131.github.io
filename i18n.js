@@ -2,6 +2,8 @@
   'use strict';
   const languages=['zh-CN','zh-HK','en'],key='tian-jaho-language-v1';
   const rows=[
+    ['收起面板','收起面板','Collapse panel'],['展开面板','展開面板','Expand panel'],
+    ['文字块位置','文字區塊位置','Text block position'],['开启自由拖动','開啟自由拖動','Enable free dragging'],['关闭自由拖动','關閉自由拖動','Disable free dragging'],['重置位置','重設位置','Reset position'],['水平 X（px）','水平 X（px）','Horizontal X (px)'],['垂直 Y（px）','垂直 Y（px）','Vertical Y (px)'],['当前调整：电脑位置','目前調整：電腦位置','Editing desktop position'],['当前调整：手机位置','目前調整：手機位置','Editing mobile position'],['开启后拖动文字块；关闭后继续改字。电脑与手机位置分别保存，三种语言共用位置。文字可以重叠。','開啟後拖動文字區塊；關閉後繼續改字。電腦與手機位置分開儲存，三種語言共用位置。文字可以重疊。','Enable dragging to move text blocks; disable it to edit text. Desktop and mobile positions are saved separately and shared across languages. Blocks may overlap.'],['已移动文字块，可用「撤销」恢复。','已移動文字區塊，可用「復原」還原。','Text block moved. Use Undo to restore it.'],['已重置文字块位置。','已重設文字區塊位置。','Text block position reset.'],
     ['田哲豪','田哲豪','TIAN Jaho'],['数学','數學','Mathematics'],['香港','香港','Hong Kong'],
     ['邮箱','電郵','Email'],['香港电话','香港電話','Hong Kong phone'],['内地电话','內地電話','Mainland China phone'],['微信','微信','WeChat'],['复制','複製','Copy'],
     ['关于','關於','About'],['项目与贡献','項目與貢獻','Projects & Contributions'],['教育经历','教育經歷','Education'],['教学经历','教學經歷','Teaching'],['荣誉与奖项','榮譽與獎項','Honors & Awards'],
@@ -59,6 +61,10 @@
   // Older drafts used the English institution name in the Chinese version.
   dictionary.set('ShiTe College (Tutorial Centre)',dictionary.get('师特书院（补习班）'));
   const reviewedRows=[
+    ['数学  |','數學  |','Mathematics |'],['计算机科学方向','計算機科學方向','Computer Science Track'],
+    ['修读数学（Computer Science Track）','修讀數學（Computer Science Track）',', majoring in Mathematics (Computer Science Track).'],
+    ['喜欢创造，解决自己需求。做过 Python 解谜游戏、个人导航网和每日任务网站，担任过补习老师/学校兼职导师，教授 HKDSE M2 和 ICT。如需联系，可发','喜歡創造，解決自己的需求。做過 Python 解謎遊戲、個人導航網和每日任務網站，曾擔任補習導師及學校兼職導師，教授 HKDSE M2 和 ICT。如需聯絡，可發','I enjoy building things to meet my own needs. I have worked on a Python puzzle game, a personal bookmark manager and a daily planner, and have taught HKDSE M2 and ICT as a tutor and a part-time school tutor. To get in touch, '],
+    ['粤语、普通话（本地）','粵語、普通話（本地）','Cantonese and Mandarin (native)'],['理学士','理學士','BSc'],
     ['参与课程：','參與課程：','Course attended:'],
     ['Python 游戏与 AI 应用编程课程（Level III）','Python 遊戲與 AI 應用編程課程（Level III）','Python Game and AI Application Programming (Level III)'],
     ['The Hong Kong Academy for Gifted Education (HKAGE)学苑成员','The Hong Kong Academy for Gifted Education (HKAGE) 學苑成員','Student member of the Hong Kong Academy for Gifted Education (HKAGE)'],

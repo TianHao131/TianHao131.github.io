@@ -80,7 +80,16 @@
   window.addEventListener('load',()=>{refresh();if(ids.includes(location.hash.slice(1)))routeHash()});
   window.addEventListener('hashchange',routeHash);window.addEventListener('popstate',routeHash);
   document.addEventListener('toggle',scheduleNavigation,true);
-  window.ResumeUI={selectPanel,refresh,applyTheme,loadCV};
+  function normalizeLayout(container){
+    for(const icon of container.querySelectorAll('#projects > svg.icon'))if(icon.querySelector('use')?.getAttribute('href')==='#i-arrow')icon.remove();
+    const main=container.querySelector('#main'),about=container.querySelector('#about');if(!main||!about||main.dataset.layoutRevision==='20261104-user-draft')return;
+    for(const element of about.querySelectorAll('[data-free-x],[data-free-y],[data-free-mobile-x],[data-free-mobile-y]')){for(const name of ['data-free-x','data-free-y','data-free-mobile-x','data-free-mobile-y'])element.removeAttribute(name);for(const name of ['--free-x','--free-y','--free-mobile-x','--free-mobile-y'])element.style.removeProperty(name);if(!element.style.cssText)element.removeAttribute('style')}
+    const skills=about.querySelector('#skills'),links=about.querySelector('.intro-links');
+    if(skills&&links){let lower=about.querySelector('.about-lower');if(!lower){lower=document.createElement('div');lower.className='about-lower';about.insertBefore(lower,skills)}lower.append(skills,links);links.classList.add('about-actions');const cv=links.querySelector('.cv-download');if(cv)links.prepend(cv);const list=skills.querySelector('.skills-list');if(list){const order=['语言','工具','编程','开发工具'];const label=element=>{const node=element.querySelector('dt [data-i18n-values]');if(node)try{return JSON.parse(node.dataset.i18nValues)['zh-CN'].trim()}catch{}return element.querySelector('dt')?.textContent.trim()};const rows=[...list.children];for(const text of order){const row=rows.find(row=>label(row)===text);if(row)list.append(row)}}}
+    main.dataset.layoutRevision='20261104-user-draft';
+  }
+  normalizeLayout(document.querySelector('.page-layout'));
+  window.ResumeUI={selectPanel,refresh,applyTheme,loadCV,normalizeLayout};
   let theme=document.documentElement.dataset.theme||'dark';try{theme=localStorage.getItem(themeKey)||theme}catch{}
   applyTheme(theme);refresh();
 })();
